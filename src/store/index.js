@@ -3,13 +3,56 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
-  state: {
+const state = {
+  token: "",
+  id: "",
+  friends: null,
+  connected: false
+}
+
+const getters = {
+  token: (state) => state.token,
+  id: (state) => state.id,
+  connected: (state) => state.connected,
+  friends: (state) => state.friends
+}
+
+const mutations = {
+  ADD_TOKEN: (state, token) => {
+    state.token = token
   },
-  mutations: {
+  CONNECT: (state) => {
+    state.connected = true
   },
-  actions: {
+  DISCONNECT: (state) => {
+    state.connected = false
   },
-  modules: {
+  LOAD_FRIENDS: (state, arr) => {
+    state.friends = arr
   }
+}
+
+const actions = {
+  addToken: (store, token) => {
+    store.commit('ADD_TOKEN', token)
+  },
+  connect: (store) => {
+    store.commit('CONNECT')
+  },
+  disconnect: (store) => {
+    store.commit('DISCONNECT')
+  },
+  loadFriends: (store, arr) => {
+    store.commit('LOAD_FRIENDS', arr)
+  }
+}
+
+let store = new Vuex.Store({
+  state,
+  mutations,
+  actions,
+  getters
 })
+
+global.store = store
+export default store
